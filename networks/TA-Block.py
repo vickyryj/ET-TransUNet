@@ -23,7 +23,7 @@ from collections import OrderedDict
 
 import torch.nn.functional as F
 
-from .RAM import RFCBAMConv
+from .RAM import RAM
 # from .EMA import EMA
 
 def autopad(k, p=None, d=1):  # kernel, padding, dilation
@@ -124,7 +124,7 @@ class SE(nn.Module):
         return y
 
 
-class RFCBAMConv(nn.Module):
+class RAM(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size=3, stride=1):
         super().__init__()
         if kernel_size % 2 == 0:
@@ -212,7 +212,7 @@ class RFCAConv(nn.Module):
 class RFA(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size=3,):
         super(RFA, self).__init__()
-        self.rfc_bam_conv = RFCBAMConv(in_channel=in_channel, out_channel=out_channel, kernel_size=kernel_size)
+        self.rfc_bam_conv = RAM(in_channel=in_channel, out_channel=out_channel, kernel_size=kernel_size)
         self. rfa_conv = RFAConv(in_channel=in_channel, out_channel=out_channel, kernel_size=kernel_size)
         self.rfca_conv = RFCAConv(inp=in_channel, oup=out_channel, kernel_size=kernel_size)
 
@@ -474,7 +474,7 @@ class TA_Block(nn.Module):
 
         self.sa = LIM_Module(inter_channels)
         self.sc = CIM_Module(inter_channels)
-        # self.sp = RFCBAMConv(in_channel=in_channels, out_channel=inter_channels)
+        # self.sp = RAM(in_channel=in_channels, out_channel=inter_channels)
         self.conv51 = nn.Sequential(nn.Conv2d(inter_channels, inter_channels, 3, padding=1, bias=False),
                                     norm(inter_channels),
                                     nn.ReLU())
