@@ -1,9 +1,9 @@
 import torch
 from torch import nn
 
-class EMA(nn.Module):
+class EMRA(nn.Module):
     def __init__(self, channels, c2=None, factor=32):
-        super(EMA, self).__init__()
+        super(EMRA, self).__init__()
         if channels<8:
             self.groups = channels
         else:
@@ -38,11 +38,12 @@ if __name__ == '__main__':
 #     batch_size, n_patches, feature_size = x.shape
 #     height_width = int(n_patches ** 0.5)
 #     tensor_reshaped = x.view(batch_size, feature_size, height_width, height_width)
-      ema = EMA(512)
-      result = ema(x)
+      EMRA = EMRA(512)
+      result = EMRA(x)
       print(result.shape)
 #     batch_size, feature_size, height, width = result.shape
 #     n_patches = height * width
 #     result_reshape = result.view(batch_size, n_patches, feature_size)
 #       print(result.shape)
+
 
